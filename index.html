@@ -22,11 +22,11 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-     .owner {
+   .owner {
             text-align: center;
             margin-bottom: 8px;
         }
-     .owner a {
+   .owner a {
             color: #ff6b00;
             text-decoration: none;
             font-weight: bold;
@@ -36,7 +36,7 @@
             border-radius: 20px;
             display: inline-block;
         }
-     .owner a:active { background: #ff6b00; color: #fff; }
+   .owner a:active { background: #ff6b00; color: #fff; }
 .subtitle { text-align: center; color: #888; font-size: 0.9rem; margin-bottom: 20px; }
 .input-box {
             background: #1a1a1a;
@@ -70,11 +70,14 @@
         }
 .btn:active { transform: scale(0.98); }
         
-     .tabs {
+   .tabs {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             margin-bottom: 15px;
+            overflow-x: auto;
+            scrollbar-width: none;
         }
+.tabs::-webkit-scrollbar { display: none; }
 .tab-btn {
             flex: 1;
             padding: 12px 8px;
@@ -82,10 +85,12 @@
             border: 1px solid #333;
             border-radius: 8px;
             color: #888;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             font-weight: bold;
             cursor: pointer;
             text-align: center;
+            white-space: nowrap;
+            min-width: 75px;
         }
 .tab-btn.active {
             background: linear-gradient(90deg, #ff6b00, #ff006a);
@@ -112,6 +117,11 @@
             grid-template-columns: repeat(5, 1fr);
             gap: 8px;
         }
+.letter-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
 .item {
             background: #0f0f0f;
             padding: 12px 6px;
@@ -130,6 +140,33 @@
             background: #ff6b00;
             border-color: #ff6b00;
             transform: scale(0.95);
+        }
+.letter {
+            background: #0f0f0f;
+            padding: 15px 5px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid #00c853;
+            font-size: 1.5rem;
+            transition: 0.2s;
+        }
+.letter:active {
+            background: #ff6b00;
+            transform: scale(0.9);
+        }
+.tab-title {
+            color: #ff6b00;
+            margin-bottom: 12px;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+.legend {
+            text-align: center;
+            color: #666;
+            font-size: 0.75rem;
+            margin-bottom: 12px;
         }
 .toast {
             position: fixed;
@@ -159,7 +196,7 @@
         <div class="owner">
             <a href="https://instagram.com/oxie_45" target="_blank">@oxie_45</a>
         </div>
-        <p class="subtitle">200 Style + 90 Symbols | Tap to Copy</p>
+        <p class="subtitle">200 Style + 90 Symbols + Khmer Letters | Tap to Copy</p>
 
         <div class="input-box">
             <input type="text" id="nameInput" placeholder="Apna naam likho: Oxie" maxlength="20" value="Oxie">
@@ -171,6 +208,7 @@
             <div class="tab-btn active" onclick="openTab('names', this)">NAME STYLES</div>
             <div class="tab-btn" onclick="openTab('safe', this)">SAFE SYMBOLS</div>
             <div class="tab-btn" onclick="openTab('rare', this)">RARE SYMBOLS</div>
+            <div class="tab-btn" onclick="openTab('khmer', this)">KHMER A-Z</div>
         </div>
 
         <div id="names" class="tab-content active">
@@ -185,6 +223,15 @@
             <div class="symbol-grid" id="rareGrid"></div>
         </div>
 
+        <div id="khmer" class="tab-content">
+            <div class="tab-title">CAPITAL A-Z</div>
+            <div class="legend">🟢 FF Safe | Tap to Copy</div>
+            <div class="letter-grid" id="khmerCapGrid"></div>
+            
+            <div class="tab-title" style="margin-top: 20px;">small a-z</div>
+            <div class="letter-grid" id="khmerSmallGrid"></div>
+        </div>
+
         <div class="footer">
             Made with ❤️ for FF Gamers | <a href="https://instagram.com/oxie_45" target="_blank">@oxie_45</a><br>
             Share kar bhai 🔥
@@ -197,6 +244,9 @@
         const safeSymbols = ['ツ','么','乂','々','〆','〱','〷','ゞ','〽️','꧔','꧁','꧂','𒆜','『','』','◤','◢','♛','♕','★','☬','〄','۝','๛','♡','♥','乛','♝','乡','彡','ミ','个','〠','〶','の','◥','◣','△','▽','▲','▼','◆','◇'];
 
         const rareSymbols = ['亗','⸙','𓆩','𓆪','𖤍','𓂀','𖠌','ᶦᶰᵈ᭄','࿐','࿇','𓆣','𓆏','𓃶','𓊈','𓊉','𓋜','𐂃','ꕥ','𓅓','ꪶ','ꫂ','❖','✘','𒁂','⛩','𐐘','𓄿','𓀂','𓁹','𓃗','𓅃','𓆈','𓇽','𓏲','𐘩','𐚁','𐚂','᯽','𖣘','𖣂','𖤐','𖥂','𖧷','𐂂','𐂯','𐃆','𐄑','𐤉','𐌑','𐍈','𐎂','𐏓'];
+
+        const khmerCapital = ['ꪖ','ꪚ','ꫀ','ꫛ','ꫀ','ꫝ','ꪻ','ꫝ','꠸','꠹','ꪹ','ꪶ','ꪑ','ꪀ','ꪮ','ꪜ','ꫝ','ꫀ','ꕶ','ꫝ','ꪊ','ꪜ','ꪝ','ꪄ','ꪗ','ꫂ'];
+        const khmerSmall = ['ᥲ','Ⴙ','ᥴ','ᶁ','ᥱ','ꫝ','ᧁ','Ⴙ','Ꭵ','᧐','ᛕ','ꪶ','ꪑ','ᥒ','᥆','ᤢ','ꫝ','ᖇ','᥉','ᤃ','ᥙ','᥎','ᥕ','᥊','ꪗ','ꪑ'];
 
         function openTab(tabName, btn) {
             document.querySelectorAll('.tab-content').forEach(tab => {
@@ -285,6 +335,8 @@
         function loadSymbols() {
             const safeGrid = document.getElementById('safeGrid');
             const rareGrid = document.getElementById('rareGrid');
+            const khmerCapGrid = document.getElementById('khmerCapGrid');
+            const khmerSmallGrid = document.getElementById('khmerSmallGrid');
 
             safeSymbols.forEach(s => {
                 const div = document.createElement('div');
@@ -300,6 +352,22 @@
                 div.textContent = s;
                 div.onclick = () => copyText(s);
                 rareGrid.appendChild(div);
+            });
+
+            khmerCapital.forEach(s => {
+                const div = document.createElement('div');
+                div.className = 'letter';
+                div.textContent = s;
+                div.onclick = () => copyText(s);
+                khmerCapGrid.appendChild(div);
+            });
+
+            khmerSmall.forEach(s => {
+                const div = document.createElement('div');
+                div.className = 'letter';
+                div.textContent = s;
+                div.onclick = () => copyText(s);
+                khmerSmallGrid.appendChild(div);
             });
         }
 
