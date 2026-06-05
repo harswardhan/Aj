@@ -22,6 +22,21 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+       .owner {
+            text-align: center;
+            margin-bottom: 8px;
+        }
+       .owner a {
+            color: #ff6b00;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1rem;
+            border: 1px solid #ff6b00;
+            padding: 6px 15px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+       .owner a:active { background: #ff6b00; color: #fff; }
 .subtitle { text-align: center; color: #888; font-size: 0.9rem; margin-bottom: 20px; }
 .input-box {
             background: #1a1a1a;
@@ -55,8 +70,7 @@
         }
 .btn:active { transform: scale(0.98); }
         
-        /* TAB STYLE YAHAN HAI */
-.tabs {
+       .tabs {
             display: flex;
             gap: 8px;
             margin-bottom: 15px;
@@ -139,7 +153,10 @@
 <body>
     <div class="container">
         <h1>FF NAME GENERATOR PRO</h1>
-        <p class="subtitle">200 Style + 90 Symbols | Tool by @oxie_45</p>
+        <div class="owner">
+            <a href="https://instagram.com/oxie_45" target="_blank">@oxie_45</a>
+        </div>
+        <p class="subtitle">200 Style + 90 Symbols | Tap to Copy</p>
 
         <div class="input-box">
             <input type="text" id="nameInput" placeholder="Apna naam likho: Oxie" maxlength="12" value="Oxie">
@@ -147,14 +164,12 @@
             <button class="btn" onclick="randomName()" style="background: #333; margin-top: 8px;">RANDOM PRO NAME</button>
         </div>
 
-        <!-- TAB BUTTONS -->
         <div class="tabs">
             <div class="tab-btn active" onclick="openTab('names', this)">NAME STYLES</div>
             <div class="tab-btn" onclick="openTab('safe', this)">SAFE SYMBOLS</div>
             <div class="tab-btn" onclick="openTab('rare', this)">RARE SYMBOLS</div>
         </div>
 
-        <!-- TAB CONTENTS -->
         <div id="names" class="tab-content active">
             <div class="grid" id="nameGrid"></div>
         </div>
@@ -168,7 +183,7 @@
         </div>
 
         <div class="footer">
-            Made with ❤️ for FF Gamers | <a href="#">@oxie_45</a><br>
+            Made with ❤️ for FF Gamers | <a href="https://instagram.com/oxie_45" target="_blank">@oxie_45</a><br>
             Share kar bhai 🔥
         </div>
     </div>
@@ -180,17 +195,13 @@
 
         const rareSymbols = ['亗','⸙','𓆩','𓆪','𖤍','𓂀','𖠌','ᶦᶰᵈ᭄','࿐','࿇','𓆣','𓆏','𓃶','𓊈','𓊉','𓋜','𐂃','ꕥ','𓅓','ꪶ','ꫂ','❖','✘','𒁂','⛩','𐐘','𓄿','𓀂','𓁹','𓃗','𓅃','𓆈','𓇽','𓏲','𐘩','𐚁','𐚂','᯽','𖣘','𖣂','𖤐','𖥂','𖧷','𐂂','𐂯','𐃆','𐄑','𐤉','𐌑','𐍈','𐎂','𐏓'];
 
-        // TAB KA FUNCTION
         function openTab(tabName, btn) {
-            // Sab tab content hide karo
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
             });
-            // Sab buttons se active hatao
             document.querySelectorAll('.tab-btn').forEach(button => {
                 button.classList.remove('active');
             });
-            // Click wala show karo
             document.getElementById(tabName).classList.add('active');
             btn.classList.add('active');
         }
