@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FF Name Style Generator Pro - @oxie_45</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #0f0f0f;
+            color: #fff;
+            padding: 15px;
+            line-height: 1.6;
+        }
+.container { max-width: 600px; margin: 0 auto; }
+        h1 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            background: linear-gradient(90deg, #ff6b00, #ff006a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+.subtitle { text-align: center; color: #888; font-size: 0.9rem; margin-bottom: 20px; }
+.input-box {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #333;
+        }
+        input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1rem;
+            border: 2px solid #ff6b00;
+            border-radius: 8px;
+            background: #0f0f0f;
+            color: #fff;
+            outline: none;
+        }
+        input:focus { border-color: #ff006a; }
+.btn {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            background: linear-gradient(90deg, #ff6b00, #ff006a);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+.btn:active { transform: scale(0.98); }
+        
+        /* TAB STYLE YAHAN HAI */
+.tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+.tab-btn {
+            flex: 1;
+            padding: 12px 8px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: #888;
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+        }
+.tab-btn.active {
+            background: linear-gradient(90deg, #ff6b00, #ff006a);
+            color: #fff;
+            border-color: #ff6b00;
+        }
+.tab-content {
+            display: none;
+            background: #1a1a1a;
+            border-radius: 12px;
+            border: 1px solid #333;
+            padding: 15px;
+        }
+.tab-content.active {
+            display: block;
+        }
+.grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+.symbol-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+        }
+.item {
+            background: #0f0f0f;
+            padding: 12px 8px;
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid #333;
+            font-size: 0.95rem;
+            word-break: break-all;
+            transition: 0.2s;
+        }
+.item:active {
+            background: #ff6b00;
+            border-color: #ff6b00;
+            transform: scale(0.95);
+        }
+.toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff6b00;
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            display: none;
+            z-index: 999;
+        }
+.footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 0.85rem;
+        }
+.footer a { color: #ff6b00; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>FF NAME GENERATOR PRO</h1>
+        <p class="subtitle">200 Style + 90 Symbols | Tool by @oxie_45</p>
+
+        <div class="input-box">
+            <input type="text" id="nameInput" placeholder="Apna naam likho: Oxie" maxlength="12" value="Oxie">
+            <button class="btn" onclick="generateNames()">STYLES GENERATE KARO</button>
+            <button class="btn" onclick="randomName()" style="background: #333; margin-top: 8px;">RANDOM PRO NAME</button>
+        </div>
+
+        <!-- TAB BUTTONS -->
+        <div class="tabs">
+            <div class="tab-btn active" onclick="openTab('names', this)">NAME STYLES</div>
+            <div class="tab-btn" onclick="openTab('safe', this)">SAFE SYMBOLS</div>
+            <div class="tab-btn" onclick="openTab('rare', this)">RARE SYMBOLS</div>
+        </div>
+
+        <!-- TAB CONTENTS -->
+        <div id="names" class="tab-content active">
+            <div class="grid" id="nameGrid"></div>
+        </div>
+
+        <div id="safe" class="tab-content">
+            <div class="symbol-grid" id="safeGrid"></div>
+        </div>
+
+        <div id="rare" class="tab-content">
+            <div class="symbol-grid" id="rareGrid"></div>
+        </div>
+
+        <div class="footer">
+            Made with ❤️ for FF Gamers | <a href="#">@oxie_45</a><br>
+            Share kar bhai 🔥
+        </div>
+    </div>
+
+    <div class="toast" id="toast">Copied!</div>
+
+    <script>
+        const safeSymbols = ['ツ','么','乂','々','〆','〱','〷','ゞ','〽️','꧔','꧁','꧂','𒆜','『','』','◤','◢','♛','♕','★','☬','〄','۝','๛','♡','♥','乛','♝','乡','彡','ミ','个','〠','〶','の','◥','◣','△','▽','▲','▼','◆','◇'];
+
+        const rareSymbols = ['亗','⸙','𓆩','𓆪','𖤍','𓂀','𖠌','ᶦᶰᵈ᭄','࿐','࿇','𓆣','𓆏','𓃶','𓊈','𓊉','𓋜','𐂃','ꕥ','𓅓','ꪶ','ꫂ','❖','✘','𒁂','⛩','𐐘','𓄿','𓀂','𓁹','𓃗','𓅃','𓆈','𓇽','𓏲','𐘩','𐚁','𐚂','᯽','𖣘','𖣂','𖤐','𖥂','𖧷','𐂂','𐂯','𐃆','𐄑','𐤉','𐌑','𐍈','𐎂','𐏓'];
+
+        // TAB KA FUNCTION
+        function openTab(tabName, btn) {
+            // Sab tab content hide karo
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            // Sab buttons se active hatao
+            document.querySelectorAll('.tab-btn').forEach(button => {
+                button.classList.remove('active');
+            });
+            // Click wala show karo
+            document.getElementById(tabName).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        function toSmallCaps(str) {
+            const map = {a:'ᴀ',b:'ʙ',c:'ᴄ',d:'ᴅ',e:'ᴇ',f:'ғ',g:'ɢ',h:'ʜ',i:'ɪ',j:'ᴊ',k:'ᴋ',l:'ʟ',m:'ᴍ',n:'ɴ',o:'ᴏ',p:'ᴘ',q:'ǫ',r:'ʀ',s:'s',t:'ᴛ',u:'ᴜ',v:'ᴠ',w:'ᴡ',x:'x',y:'ʏ',z:'ᴢ'};
+            return str.toLowerCase().split('').map(c => map[c] || c).join('');
+        }
+
+        function toFullWidth(str) {
+            return str.split('').map(c => {
+                const code = c.charCodeAt(0);
+                return code >= 33 && code <= 126? String.fromCharCode(code + 0xFEE0) : c;
+            }).join('');
+        }
+
+        function toBold(str) {
+            const map = {A:'𝐀',B:'𝐁',C:'𝐂',D:'𝐃',E:'𝐄',F:'𝐅',G:'𝐆',H:'𝐇',I:'𝐈',J:'𝐉',K:'𝐊',L:'𝐋',M:'𝐌',N:'𝐍',O:'𝐎',P:'𝐏',Q:'𝐐',R:'𝐑',S:'𝐒',T:'𝐓',U:'𝐔',V:'𝐕',W:'𝐖',X:'𝐗',Y:'𝐘',Z:'𝐙',a:'𝐚',b:'𝐛',c:'𝐜',d:'𝐝',e:'𝐞',f:'𝐟',g:'𝐠',h:'𝐡',i:'𝐢',j:'𝐣',k:'𝐤',l:'𝐥',m:'𝐦',n:'𝐧',o:'𝐨',p:'𝐩',q:'𝐪',r:'𝐫',s:'𝐬',t:'𝐭',u:'𝐮',v:'𝐯',w:'𝐰',x:'𝐱',y:'𝐲',z:'𝐳'};
+            return str.split('').map(c => map[c] || c).join('');
+        }
+
+        function toItalic(str) {
+            const map = {A:'𝘈',B:'𝘉',C:'𝘊',D:'𝘋',E:'𝘌',F:'𝘍',G:'𝘎',H:'𝘏',I:'𝘐',J:'𝘑',K:'𝘒',L:'𝘓',M:'𝘔',N:'𝘕',O:'𝘖',P:'𝘗',Q:'𝘘',R:'𝘙',S:'𝘚',T:'𝘛',U:'𝘜',V:'𝘝',W:'𝘞',X:'𝘟',Y:'𝘠',Z:'𝘡',a:'𝘢',b:'𝘣',c:'𝘤',d:'𝘥',e:'𝘦',f:'𝘧',g:'𝘨',h:'𝘩',i:'𝘪',j:'𝘫',k:'𝘬',l:'𝘭',m:'𝘮',n:'𝘯',o:'𝘰',p:'𝘱',q:'𝘲',r:'𝘳',s:'𝘴',t:'𝘵',u:'𝘶',v:'𝘷',w:'𝘸',x:'𝘹',y:'𝘺',z:'𝘻'};
+            return str.split('').map(c => map[c] || c).join('');
+        }
+
+        function generateNames() {
+            const name = document.getElementById('nameInput').value.trim() || 'Oxie';
+            const grid = document.getElementById('nameGrid');
+            grid.innerHTML = '';
+
+            let styles = [];
+
+            styles.push(toSmallCaps(name));
+            styles.push(toFullWidth(name));
+            styles.push(toBold(name));
+            styles.push(toItalic(name));
+            styles.push(name.toUpperCase());
+            styles.push(name.toLowerCase());
+
+            safeSymbols.slice(0, 20).forEach(s => styles.push(s + name + s));
+            safeSymbols.slice(0, 20).forEach(s => styles.push(name + s));
+            rareSymbols.slice(0, 20).forEach(s => styles.push(s + name + s));
+            rareSymbols.slice(0, 20).forEach(s => styles.push(name + s));
+
+            styles.push(`꧁༒${name}༒꧂`);
+            styles.push(`『${toSmallCaps(name)}』`);
+            styles.push(`亗${name}亗`);
+            styles.push(`𓆩${name}𓆪`);
+            styles.push(`么${name}么`);
+            styles.push(`◤${toFullWidth(name)}◢`);
+            styles.push(`♛${name}♛`);
+            styles.push(`𖤍${name}𖤍`);
+            styles.push(`ᴳᵒᵈ ${name}`);
+            styles.push(`${name}࿐`);
+            styles.push(`乂${name}乂`);
+            styles.push(`★彡${name}彡★`);
+            styles.push(`𒆜${name}𒆜`);
+            styles.push(`꧁${name}ツ꧂`);
+            styles.push(`${name}〆`);
+
+            while(styles.length < 200) {
+                const s1 = safeSymbols[Math.floor(Math.random() * safeSymbols.length)];
+                const s2 = rareSymbols[Math.floor(Math.random() * rareSymbols.length)];
+                styles.push(s1 + name + s2);
+            }
+
+            styles.slice(0, 200).forEach(style => {
+                const div = document.createElement('div');
+                div.className = 'item';
+                div.textContent = style;
+                div.onclick = () => copyText(style);
+                grid.appendChild(div);
+            });
+        }
+
+        function loadSymbols() {
+            const safeGrid = document.getElementById('safeGrid');
+            const rareGrid = document.getElementById('rareGrid');
+
+            safeSymbols.forEach(s => {
+                const div = document.createElement('div');
+                div.className = 'item';
+                div.textContent = s;
+                div.onclick = () => copyText(s);
+                safeGrid.appendChild(div);
+            });
+
+            rareSymbols.forEach(s => {
+                const div = document.createElement('div');
+                div.className = 'item';
+                div.textContent = s;
+                div.onclick = () => copyText(s);
+                rareGrid.appendChild(div);
+            });
+        }
+
+        function randomName() {
+            const name = document.getElementById('nameInput').value.trim() || 'Oxie';
+            const s1 = rareSymbols[Math.floor(Math.random() * rareSymbols.length)];
+            const s2 = safeSymbols[Math.floor(Math.random() * safeSymbols.length)];
+            const styles = [
+                `꧁༒${s1}${name}༒꧂`,
+                `${s1}${toSmallCaps(name)}${s2}`,
+                `𓆩${name}𓆪${s1}`,
+                `${s2}${toFullWidth(name)}${s1}`,
+                `亗${name}${s2}`
+            ];
+            const random = styles[Math.floor(Math.random() * styles.length)];
+            copyText(random);
+        }
+
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const toast = document.getElementById('toast');
+                toast.textContent = `Copied: ${text}`;
+                toast.style.display = 'block';
+                setTimeout(() => toast.style.display = 'none', 2000);
+            });
+        }
+
+        window.onload = () => {
+            loadSymbols();
+            generateNames();
+        };
+    </script>
+</body>
+</html>
